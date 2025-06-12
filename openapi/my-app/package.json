@@ -1,0 +1,17 @@
+{
+  "name": "my-app",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "@hono/swagger-ui": "^0.5.2",
+    "@hono/zod-openapi": "^0.19.8",
+    "hono": "^4.7.11",
+    "openapi-typescript-codegen": "^0.29.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.4.0"
+  }
+}
