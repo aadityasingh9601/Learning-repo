@@ -1,13 +1,26 @@
 import express from "express";
+import { rateLimit } from "express-rate-limit";
 
 const app = express();
 
 app.use(express.json());
 
+//Similarly you can create multiple limiters for different routes, or create a single limiter and pass that in
+//app.use(limiter) to do rate-limiting.
+const otpLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  message:
+    "Too many otp generation requests, please try again after 15 minutes",
+  standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  // store: ... , // Redis, Memcached, etc. See below.
+});
+
 //create an object to store the otps. It's a in-memory store.
 const otpStore: Record<string, string> = {};
 
-app.post("/generate-otp", (req: any, res: any) => {
+app.post("/generate-otp", otpLimiter, (req: any, res: any) => {
   const { email } = req.body;
 
   if (!email) {
