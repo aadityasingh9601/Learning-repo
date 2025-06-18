@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.1.0",
+    "@types/axios": "^0.14.4",
+    "axios": "^1.10.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

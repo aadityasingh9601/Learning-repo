@@ -1,9 +1,11 @@
 import express from "express";
 import { rateLimit } from "express-rate-limit";
+import cors from "cors";
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 //Similarly you can create multiple limiters for different routes, or create a single limiter and pass that in
 //app.use(limiter) to do rate-limiting.
@@ -35,12 +37,37 @@ app.post("/generate-otp", otpLimiter, (req: any, res: any) => {
   return res.status(200).json({ message: "OTP generated and logged!" });
 });
 
-app.post("/reset-password", (req: any, res: any) => {
-  const { otp, newPassword, email } = req.body;
+app.post("/reset-password", async (req: any, res: any) => {
+  const { otp, newPassword, email, token } = req.body;
+  console.log(token);
+  //console.log(req.body);
 
-  if (!otp || !newPassword || !email) {
-    return res.status(400).json({ message: "All three are required" });
-  }
+  // if (!otp || !newPassword || !email) {
+  //   return res.status(400).json({ message: "All three are required" });
+  // }
+
+  //Verfying our token.
+  const verifyEndpoint =
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+  const secret = "0x4AAAAAABhHrHCz1rKVPFr_BLYWMGGH4DY";
+
+  const response = await fetch(verifyEndpoint, {
+    method: "POST",
+    body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(
+      token
+    )}`,
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+  });
+
+  //Check the status, if valid, perform the task, if not, don't perform the task or do whatever you want to.
+  console.log(await response.json());
+  return res.status(200).json(response);
+
+  // const data = (await res.json()) as TurnstileServerValidationResponse;
+
+  // console.log(data);
 
   if (otpStore[email] === otp) {
     console.log(`Password of user ${email} reseted to ${newPassword}`);
