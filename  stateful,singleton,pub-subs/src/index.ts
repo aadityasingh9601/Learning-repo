@@ -1,5 +1,4 @@
-import express from "express";
-import { games } from "./store";
+import { GameManager } from "./store";
 import { startLogger } from "./logger";
 
 //What we're trying to do is just simulate a space, where the state is stored in-memory, it's not actual, we're
@@ -10,12 +9,7 @@ import { startLogger } from "./logger";
 startLogger();
 
 setInterval(() => {
-  games.push({
-    id: Math.random().toString(),
-    whitePlayerName: "John",
-    blackPlayerName: "Doe",
-    moves: [],
-  });
+  GameManager.getInstance().addGame(Math.random().toString(), "John", "Doe");
 }, 3000);
 
 //Try running this code now, it'll work as you want it to, the state keeps updating, the values keeps getting logged

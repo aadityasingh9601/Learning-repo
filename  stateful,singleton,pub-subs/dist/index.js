@@ -8,10 +8,13 @@ const logger_1 = require("./logger");
 //happening and pushes them into the games or whatever state variable there is.
 (0, logger_1.startLogger)();
 setInterval(() => {
-    store_1.games.push({
-        id: Math.random().toString(),
-        whitePlayerName: "John",
-        blackPlayerName: "Doe",
-        moves: [],
-    });
+    store_1.GameManager.getInstance().addGame(Math.random().toString(), "John", "Doe");
 }, 3000);
+//Try running this code now, it'll work as you want it to, the state keeps updating, the values keeps getting logged
+//so it's become stateful now, you're storing it in-memory means in a variable(in RAM).
+//But there're some problems here, like id you want to update the state, you would have to do it like --
+//games[0].moves.push("xyz"); This looks bad and also hectic, we've to write our code in such a way that the users
+//of our code can easily interact with it,use it and modify with it.
+//So we'll now study a better structure and format of doing the same things, that's clean, easy to use,preferred
+//standard practice in production level code.
+//Classes and singleton pattern.
