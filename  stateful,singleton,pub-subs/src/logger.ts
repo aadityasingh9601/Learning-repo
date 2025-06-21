@@ -1,8 +1,11 @@
+import { PubSubManager } from "./pubSubManager";
 import { GameManager } from "./store";
 
 export function startLogger() {
   setInterval(() => {
-    GameManager.getInstance().log();
+    //GameManager.getInstance().log();
+    //Simulates users subscriptions on regular intervals.
+    PubSubManager.getInstance().userUnsubscribe("google", "0.3676694471124484");
   }, 3000);
 }
 
