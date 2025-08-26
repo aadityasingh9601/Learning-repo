@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc -b && jest",
+    "dev": "tsc -b && node dist/bin.js"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +17,9 @@
     "express": "^5.1.0",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.1"
+  },
+  "dependencies": {
+    "jest": "^30.0.5",
+    "typescript": "^5.9.2"
   }
 }
