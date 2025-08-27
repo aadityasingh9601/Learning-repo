@@ -6,9 +6,9 @@ app.use(express.json());
 
 app.post("/sum", (req, res) => {
   const { a, b } = req.body;
-  let ans = a + b;
-  console.log(ans);
+  let answer = a + b;
+
   res.json({
-    ans,
+    answer,
   });
 });
