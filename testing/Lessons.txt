@@ -5,3 +5,10 @@
 3. How your work got lost because of your mistake, running the wrong git command, and how it got recovered, see in GPT,
 make sure to share those too, as they're part of the learning too.
 
+4. Why this error while running "npx prisma init"?
+
+> Downloading Prisma engines for Node-API for windows [                    ] 0%Error: request to 
+https://binaries.prisma.sh/all_commits/717184b7b35ea05dfa71a3236b7af656013e1e49/windows/schema-engine.exe.gz.sha256 failed.
+
+It's nothing but a network glitch, happens sometimes, try restarting your machine and network provider.
+

@@ -1,8 +1,16 @@
 import { app } from "..";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import request from "supertest";
 
-describe("Testing express app", () => {
+//We currently don't have database url access & we're writing unit tests, so we'll just mock the prisma client here.
+
+vi.mock("../db", () => {
+  return {
+    prismaClient: { sum: { create: vi.fn() } },
+  };
+});
+
+describe("Testing express app", async () => {
   it("testing post /sum", async () => {
     const res = await request(app).post("/sum").send({
       a: 1,
