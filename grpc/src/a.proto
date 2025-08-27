@@ -14,7 +14,7 @@ service PersonService{
     //Get a person from their name.
     rpc GetPersonByName(GetPersonByNameRequest) returns (Person);
 
-    //As you have more & more services, you can add them as they come here.
+    //As you have more & more services, you can add them as they come here with time.
     
 }
 

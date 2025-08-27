@@ -47,7 +47,7 @@ const handlers: PersonServiceHandlers = {
   GetPersonByName: function getPersonByName(call, callback) {
     const name = call.request.name;
     const person = Persons.find((p) => p.name === name);
-    //These are error first callbacks, first arg is null means there's no error, else you could've sent the error.
+    //These are error first callbacks, first arg is null means there's no error, else you could've just sent the error.
     callback(null, person);
   },
 };

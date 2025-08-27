@@ -1,0 +1,7 @@
+1. Jest command not recognized -- This error because jest not present, install it, npm install jest -D.
+
+2. Can't find module typescript -- Jest needs typescript installed to work, so install that in you project.
+
+3. How your work got lost because of your mistake, running the wrong git command, and how it got recovered, see in GPT,
+make sure to share those too, as they're part of the learning too.
+
