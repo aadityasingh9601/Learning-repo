@@ -21,7 +21,7 @@ app.post("/sum", async (req, res) => {
   const request = await prismaClient.sum.create({
     data: {
       a: 200,
-      b: 30,
+      b: 30000,
       result: answer,
     },
   });
