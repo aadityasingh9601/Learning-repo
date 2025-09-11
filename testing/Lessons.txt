@@ -12,3 +12,57 @@ https://binaries.prisma.sh/all_commits/717184b7b35ea05dfa71a3236b7af656013e1e49/
 
 It's nothing but a network glitch, happens sometimes, try restarting your machine and network provider.
 
+5. Why were you facing a hard time running .sh files in your VS code shell, but script was running in WSL & Git Bash?
+
+⚡ Why it works in Git Bash & WSL but not VS Code’s integrated terminal
+
+VS Code’s terminal isn’t a shell by itself — it just opens whatever default shell you’ve configured (PowerShell, CMD, WSL, or Git Bash).
+If your integrated terminal is set to PowerShell or CMD, those don’t know what to do with .sh files. That’s why you see the Windows popup
+“Choose an app to open this file”.
+
+Git Bash works because it’s a Bash shell — it can actually interpret .sh.
+
+⚡ Why bash filename.sh gives “no such file or directory”
+
+In CMD/PowerShell, there’s no bash binary installed (unless you’re inside WSL or Git Bash).
+So when you type bash filename.sh, Windows tries to find a bash.exe → fails → gives the error.
+When you just type the file path (C:\path\script.sh), Windows treats it like a “document” → hence the popup asking “which app should open this?”.
+
+✅ How to fix it in VS Code
+
+You have 3 choices:
+
+1. Change VS Code’s integrated terminal to Git Bash (best option)
+
+In VS Code:
+Press Ctrl + Shift + P → type "Select Default Profile"
+Pick Git Bash
+
+Now open a new terminal → you’ll be in Git Bash → you can run:
+./filename.sh
+
+and it’ll work like in standalone Git Bash.
+
+2. Use WSL in VS Code
+
+Install the Remote - WSL VS Code extension.
+Open your project folder in WSL (code . inside WSL).
+VS Code terminals will now be Linux shells, so .sh runs fine.
+
+3. Run scripts with Windows Subsystem Bash
+
+If you want to keep using PowerShell but still run .sh, you can do:
+wsl bash /mnt/c/Users/YourName/path/to/script.sh
+
+But this is clunkier.
+
+🔑 TL;DR
+
+You’re seeing different behavior because VS Code terminal = PowerShell/CMD, while Git Bash terminal = Bash.
+That’s why PowerShell shows the “open with…” popup, and Git Bash just runs it.
+✅ Solution: set VS Code’s default terminal to Git Bash (most seamless for you right now).
+
+6. How to change the default terminal that you get in VS code?
+
+In VS code, Ctrl + Shift + P, Select default profile and choose the shell you want, now open a new terminal & you'll get 
+it with the new shell.
